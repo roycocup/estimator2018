@@ -6,7 +6,25 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
-      - "8080:8080"
       - "8888:8888"
     volumes:
       - /var/application/estimator2018:/var/application/estimator2018
+    depends_on:
+      - db
+
+  db:
+    image: 'mysql:5.7'
+    environment:
+      - MYSQL_DATABASE=estimator
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - mysql_data:/var/lib/mysql
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  mysql_data:
