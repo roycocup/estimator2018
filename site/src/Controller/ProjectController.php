@@ -138,6 +138,7 @@ class ProjectController extends Controller
                 $answer->setLastScore(-$weight);
                 $score -= $weight;
             } else {
+                dump($answer);
                 $answer->setLastScore($answer->getAnswer() * $weight);
                 $score += ($answer->getAnswer() * $weight);
 
@@ -152,7 +153,7 @@ class ProjectController extends Controller
         $estimation = ($score * $maxTime) / $maxScore;
         $minEstimation = 1;
         $estimation = ($estimation < $minEstimation)? 0 : $estimation;
-        $project->setEstimation($estimation);
+        $project->setEstimation(round($estimation, 2));
 
 
         $em->persist($project);
@@ -168,7 +169,7 @@ class ProjectController extends Controller
     public function toNumber(&$answer)
     {
         if (is_string($answer->getAnswer())) {
-            if ($answer->getAnswer() == 'y') {
+            if ($answer->getAnswer() == 'y' || $answer->getAnswer() == 'on') {
                 $answer->setAnswer(1);
             } elseif($answer->getAnswer() == 'n') {
                 $answer->setAnswer(0);

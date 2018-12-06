@@ -48,6 +48,11 @@ class Question
      */
     private $answers;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $questionType;
+
     public function __toString()
     {
         return $this->getText();
@@ -150,6 +155,18 @@ class Question
                 $answer->setQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuestionType(): ?string
+    {
+        return $this->questionType;
+    }
+
+    public function setQuestionType(string $questionType): self
+    {
+        $this->questionType = $questionType;
 
         return $this;
     }

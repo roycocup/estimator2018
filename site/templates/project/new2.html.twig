@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 
 {% block title %}New Project{% endblock %}
@@ -9,8 +8,41 @@
 
     <form action="{{ path('project_handle_new') }}" method="POST">
         {% for key, question in questions %}
-            <p>{{ question }}</p>
-            <p><input type="text" name="a{{ question.id }}"></p>
+            <div class="form-group">
+                <legend>{{ question }}</legend>
+                {% if question.description %}
+                    <label for="">{{ question.description }}</label>
+                {% endif %}
+
+                {% if question.questionType == 'bool' %}
+                    <input type="checkbox" class="form-control" name="a{{ question.id }}">
+                {% endif %}
+
+                {% if question.questionType == 'set' %}
+                    <select id="select" name="a{{ question.id }}">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                {% endif %}
+
+                {% if question.questionType == 'value' %}
+                    {% if question.name == 'number_of_developers' %}
+                        <input type="text" class="form-control" required=true name="a{{ question.id }}">
+                    {% else %}
+                        <input type="text" class="form-control" name="a{{ question.id }}">
+                    {% endif %}
+                {% endif %}
+
+            </div>
         {% endfor %}
         <input type="submit" value="save">
     </form>
