@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y \
     php7.2-mbstring \
     php-xml \
     php7.2-zip \ 
-    php7.2-curl
+    php7.2-curl \
+    php7.2-mysql
 
 RUN apt-get update && apt-get install -y \
     openssh-client \
