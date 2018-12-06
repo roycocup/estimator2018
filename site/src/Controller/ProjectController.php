@@ -7,6 +7,7 @@ use App\Entity\Project;
 use App\Entity\Question;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,45 +27,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/new", name="project_new", methods="GET|POST")
+     * @Route("/new", name="project_new")
      */
     public function new(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $project = new Project();
         $questionRepo = $this->getDoctrine()->getRepository(Question::class);
-//        $form = $this->createForm(ProjectType::class, $project);
-//        $form->handleRequest($request);
-
-        // if not all questions are answered
-        if ($request->request->count() < count($questionRepo->findAll()) ){
-            return false;
-        }
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($project);
-//            $em->flush();
-//
-//            return $this->redirectToRoute('project_index');
-//        }
-        if ($request->request->count() == count($questionRepo->findAll())){
-            foreach ($request->request->all() as $formAnswer){
-                $answer = new Answer();
-                $answer->setAnswer($formAnswer);
-                $answer->setQuestion($questionRepo->find(1));
-                $answer->setProject($project);
-                $project->addAnswer($answer);
-                $em->persist($answer);
-                $em->persist($project);
-                $em->flush();
-            }
-
-        }
 
         return $this->render('project/new2.html.twig', [
-            'project' => $project,
             'questions' => $questionRepo->findAll(),
-//            'form' => $form->createView(),
         ]);
     }
 
@@ -109,4 +79,95 @@ class ProjectController extends Controller
 
         return $this->redirectToRoute('project_index');
     }
+
+    /**
+     * @Route("/handle_new", name="project_handle_new", methods="GET|POST")
+     */
+    public function handleForm(Request $request): Response
+    {
+        $project = new Project();
+        $em = $this->getDoctrine()->getManager();
+        $questionRepo = $this->getDoctrine()->getRepository(Question::class);
+
+
+        // if we ask for the keys we can then get the corresponding questions
+        $answerKeys = $request->request->keys();
+        foreach ($answerKeys as $answerKey){
+            $questionId = substr($answerKey, 1);
+            $formAnswer = $request->get($answerKey);
+            $answer = new Answer();
+            $answer->setAnswer($formAnswer);
+            $answer->setQuestion($questionRepo->find((int) $questionId));
+            $answer->setProject($project);
+            $project->addAnswer($answer);
+            $em->persist($answer);
+        }
+        $em->persist($project);
+        $em->flush();
+
+        return $this->redirectToRoute('project_index', ['id' => $project->getId()]);
+    }
+
+    /**
+     * @Route("/process/{id}", name="project_process")
+     */
+    public function process(Request $request, Project $project)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $score = 0;
+        foreach ($project->getAnswers() as $answer){
+            /** @var  $answer Answer */
+            $this->toNumber($answer);
+            $weight = $answer->getQuestion()->getWeight();
+
+            //$explodedName = new ArrayCollection(explode("_", $answer->getQuestion()->getName()));
+            if ($answer->getQuestion()->getName() == "author_is_same" || $answer->getQuestion()->getName() == "server_control" ) {
+                $answer->setLastScore(-$weight);
+                $score -= $weight;
+            } elseif($answer->getQuestion()->getName() == "number_of_developers") {
+                $answer->setLastScore(-1 * ($weight * $answer->getAnswer()));
+                $score -= $weight * $answer->getAnswer();
+            } elseif ($answer->getQuestion()->getName() == "server_control" && $answer->getAnswer() == 0) {
+                $answer->setLastScore(-$weight);
+                $score -= $weight;
+            } elseif ($answer->getQuestion()->getName() == "domain_familiarity" && $answer->getAnswer() == 0) {
+                $answer->setLastScore(-$weight);
+                $score -= $weight;
+            } else {
+                $answer->setLastScore($answer->getAnswer() * $weight);
+                $score += ($answer->getAnswer() * $weight);
+
+            }
+            $em->persist($answer);
+        }
+
+        $project->setScore($score);
+        
+        $maxScore = 60;
+        $maxTime = 365;
+        $estimation = ($score * $maxTime) / $maxScore;
+        $project->setEstimation($estimation);
+
+
+        $em->persist($project);
+        $em->flush();
+
+        return $this->redirectToRoute('project_show',['id' => $project->getId()] );
+    }
+
+    /**
+     * transform all string boolean answers to numbers
+     * @param $answer
+     */
+    public function toNumber(&$answer)
+    {
+        if (is_string($answer->getAnswer())) {
+            if ($answer->getAnswer() == 'y') {
+                $answer->setAnswer(1);
+            } elseif($answer->getAnswer() == 'n') {
+                $answer->setAnswer(0);
+            }
+        }
+    }
+
 }

@@ -5,10 +5,10 @@
 {% block body %}
     <h1>Create new Estimate</h1>
 
-    <form action="" method="POST">
+    <form action="{{ path('project_handle_new') }}" method="POST">
     {% for key, question in questions %}
         <p>{{ question }}</p>
-        <p><input type="text" name="a{{ key }}"></p>
+        <p><input type="text" name="a{{ question.id }}"></p>
     {% endfor %}
         <input type="submit" value="save">
     </form>

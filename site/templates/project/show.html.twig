@@ -6,17 +6,25 @@
     <h1>Project</h1>
 
     <table class="table">
+        <thead>
+            <th>Id</th>
+            <th>Score</th>
+            <th>Estimation</th>
+            <th>Actions</th>
+        </thead>
         <tbody>
             <tr>
-                <th>Id</th>
                 <td>{{ project.id }}</td>
+                <td>{{ project.score | default(0)}}</td>
+                <td>{{ project.estimation | default(0) }}</td>
+                <td><a href="{{ path('project_process', {'id': project.id}) }}">process</a></td>
             </tr>
         </tbody>
     </table>
 
     <a href="{{ path('project_index') }}">back to list</a>
 
-    <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
+    {#<a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>#}
 
     {{ include('project/_delete_form.html.twig') }}
 {% endblock %}

@@ -32,6 +32,11 @@ class Answer
      */
     private $project;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $lastScore;
+
     public function __toString()
     {
         return $this->getAnswer();
@@ -74,6 +79,18 @@ class Answer
     public function setProject(?Project $project): self
     {
         $this->project = $project;
+
+        return $this;
+    }
+
+    public function getLastScore(): ?float
+    {
+        return $this->lastScore;
+    }
+
+    public function setLastScore(?float $lastScore): self
+    {
+        $this->lastScore = $lastScore;
 
         return $this;
     }

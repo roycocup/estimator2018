@@ -23,6 +23,16 @@ class Project
      */
     private $Answers;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $score;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $estimation;
+
     public function __construct()
     {
         $this->Answers = new ArrayCollection();
@@ -60,6 +70,30 @@ class Project
                 $answer->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getScore(): ?float
+    {
+        return $this->score;
+    }
+
+    public function setScore(?float $score): self
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+    public function getEstimation(): ?float
+    {
+        return $this->estimation;
+    }
+
+    public function setEstimation(?float $estimation): self
+    {
+        $this->estimation = $estimation;
 
         return $this;
     }
