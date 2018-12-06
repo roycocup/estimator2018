@@ -33,6 +33,11 @@ class Project
      */
     private $estimation;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
     public function __construct()
     {
         $this->Answers = new ArrayCollection();
@@ -94,6 +99,18 @@ class Project
     public function setEstimation(?float $estimation): self
     {
         $this->estimation = $estimation;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

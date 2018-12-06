@@ -9,6 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Estimation</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -16,6 +19,9 @@
         {% for project in projects %}
             <tr>
                 <td>{{ project.id }}</td>
+                <td>{{ project.name }}</td>
+                <td>{{ project.score }}</td>
+                <td>{{ project.estimation }}</td>
                 <td>
                     <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
                     <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>

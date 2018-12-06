@@ -8,6 +8,7 @@
     <table class="table">
         <thead>
             <th>Id</th>
+            <th>Name</th>
             <th>Score</th>
             <th>Estimation</th>
             <th>Actions</th>
@@ -15,6 +16,7 @@
         <tbody>
             <tr>
                 <td>{{ project.id }}</td>
+                <td>{{ project.name }}</td>
                 <td>{{ project.score | default(0)}}</td>
                 <td>{{ project.estimation | default(0) }}</td>
                 <td><a href="{{ path('project_process', {'id': project.id}) }}">process</a></td>

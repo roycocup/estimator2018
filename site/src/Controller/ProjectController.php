@@ -93,8 +93,8 @@ class ProjectController extends Controller
         // if we ask for the keys we can then get the corresponding questions
         $answerKeys = $request->request->keys();
         foreach ($answerKeys as $answerKey){
-            $questionId = substr($answerKey, 1);
             $formAnswer = $request->get($answerKey);
+            $questionId = substr($answerKey, 1);
             $answer = new Answer();
             $answer->setAnswer($formAnswer);
             $answer->setQuestion($questionRepo->find((int) $questionId));
@@ -102,6 +102,7 @@ class ProjectController extends Controller
             $project->addAnswer($answer);
             $em->persist($answer);
         }
+
         $em->persist($project);
         $em->flush();
 
@@ -119,6 +120,9 @@ class ProjectController extends Controller
             /** @var  $answer Answer */
             $this->toNumber($answer);
             $weight = $answer->getQuestion()->getWeight();
+
+            if (empty($answer->getAnswer()))
+                $answer->setAnswer(0);
 
             //$explodedName = new ArrayCollection(explode("_", $answer->getQuestion()->getName()));
             if ($answer->getQuestion()->getName() == "author_is_same" || $answer->getQuestion()->getName() == "server_control" ) {
@@ -142,10 +146,12 @@ class ProjectController extends Controller
         }
 
         $project->setScore($score);
-        
+
         $maxScore = 60;
         $maxTime = 365;
         $estimation = ($score * $maxTime) / $maxScore;
+        $minEstimation = 1;
+        $estimation = ($estimation < $minEstimation)? 0 : $estimation;
         $project->setEstimation($estimation);
 
 

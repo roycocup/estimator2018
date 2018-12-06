@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}New Estimate{% endblock %}
+
+{% block title %}New Project{% endblock %}
 
 {% block body %}
-    <h1>Create new Estimate</h1>
+    <h1>Create new Project</h1>
 
     <form action="{{ path('project_handle_new') }}" method="POST">
-    {% for key, question in questions %}
-        <p>{{ question }}</p>
-        <p><input type="text" name="a{{ question.id }}"></p>
-    {% endfor %}
+        {% for key, question in questions %}
+            <p>{{ question }}</p>
+            <p><input type="text" name="a{{ question.id }}"></p>
+        {% endfor %}
         <input type="submit" value="save">
     </form>
 

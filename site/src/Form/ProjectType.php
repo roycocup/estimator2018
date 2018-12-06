@@ -13,7 +13,7 @@ class ProjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('answers', AnswerType::class)
+        ->add('name')
             ;
     }
 
