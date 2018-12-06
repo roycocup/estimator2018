@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Estimate{% endblock %}
+
+{% block body %}
+    <h1>Create new Estimate</h1>
+
+    <form action="" method="POST">
+    {% for key, question in questions %}
+        <p>{{ question }}</p>
+        <p><input type="text" name="a{{ key }}"></p>
+    {% endfor %}
+        <input type="submit" value="save">
+    </form>
+
+    <a href="{{ path('project_index') }}">back to list</a>
+{% endblock %}
