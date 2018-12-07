@@ -5,6 +5,10 @@
 
 {% block body %}
     <h1>Create new Project</h1>
+    <blockquote>
+        Please answer these 26 questions which I am aware are: ambivalent, confusing, vague, and ultimately left to your own interpretation,
+        but ultimately can make you fail faster
+    </blockquote>
 
     <form action="{{ path('project_handle_new') }}" method="POST">
         {% for key, question in questions %}
@@ -44,8 +48,8 @@
 
             </div>
         {% endfor %}
-        <input type="submit" value="save">
+        <input class="btn btn-success" type="submit" value="save">
     </form>
 
-    <a href="{{ path('project_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('project_index') }}">back to list</a>
 {% endblock %}

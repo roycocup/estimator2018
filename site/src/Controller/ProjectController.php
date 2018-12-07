@@ -124,7 +124,6 @@ class ProjectController extends Controller
             if (empty($answer->getAnswer()))
                 $answer->setAnswer(0);
 
-            //$explodedName = new ArrayCollection(explode("_", $answer->getQuestion()->getName()));
             if ($answer->getQuestion()->getName() == "author_is_same" || $answer->getQuestion()->getName() == "server_control" ) {
                 $answer->setLastScore(-$weight);
                 $score -= $weight;
@@ -138,7 +137,6 @@ class ProjectController extends Controller
                 $answer->setLastScore(-$weight);
                 $score -= $weight;
             } else {
-                dump($answer);
                 $answer->setLastScore($answer->getAnswer() * $weight);
                 $score += ($answer->getAnswer() * $weight);
 

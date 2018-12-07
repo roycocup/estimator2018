@@ -23,8 +23,8 @@
                 <td>{{ project.score }}</td>
                 <td>{{ project.estimation }}</td>
                 <td>
-                    <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
-                    <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('project_show', {'id': project.id}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('project_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('project_new') }}">Create new</a>
 {% endblock %}
