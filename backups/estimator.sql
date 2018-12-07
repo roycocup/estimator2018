@@ -166,7 +166,28 @@ INSERT INTO `answer` (`id`, `question_id`, `answer`, `project_id`, `last_score`)
 (142,	10,	'0',	16,	0),
 (143,	23,	'1',	16,	0.5),
 (144,	24,	'1',	16,	0.8),
-(145,	25,	'1',	16,	-0.5);
+(145,	25,	'1',	16,	-0.5),
+(146,	2,	'1',	17,	0.3),
+(147,	3,	'1',	17,	0.2),
+(148,	4,	'1',	17,	0.2),
+(149,	5,	'3',	17,	1.8),
+(150,	6,	'50',	17,	35),
+(151,	7,	'0',	17,	0),
+(152,	8,	'6',	17,	4.8),
+(153,	9,	'1',	17,	0.5),
+(154,	10,	'7',	17,	2.8),
+(155,	13,	'1',	17,	0.6),
+(156,	14,	'1',	17,	0.7),
+(157,	15,	'1',	17,	0.2),
+(158,	16,	'1',	17,	0.1),
+(159,	17,	'1',	17,	0.6),
+(160,	18,	'1',	17,	0.5),
+(161,	19,	'1',	17,	0.8),
+(162,	20,	'1',	17,	-0.9),
+(163,	21,	'1',	17,	0.6),
+(164,	22,	'1',	17,	0.3),
+(165,	25,	'3',	17,	-1.5),
+(166,	26,	'1',	17,	0.6);
 
 DROP TABLE IF EXISTS `migration_versions`;
 CREATE TABLE `migration_versions` (
@@ -203,7 +224,8 @@ INSERT INTO `project` (`id`, `score`, `estimation`, `name`) VALUES
 (13,	-2,	0,	'lkjdflkjf'),
 (14,	4.2,	25.55,	'Something easy'),
 (15,	8,	48.67,	'another easy one'),
-(16,	0.8,	4.87,	'No name project');
+(16,	0.8,	4.87,	'No name project'),
+(17,	48.2,	293.22,	'Coronis');
 
 DROP TABLE IF EXISTS `question`;
 CREATE TABLE `question` (
@@ -245,4 +267,4 @@ INSERT INTO `question` (`id`, `name`, `question_text`, `weight`, `description`, 
 (25,	'number_of_developers',	'How many developers will be working on this? (1-...)',	0.5,	'',	450,	'value'),
 (26,	'domain_familiarity',	'Does the team or developer have familiarity with the business domain? (y/n)',	0.6,	'',	500,	'bool');
 
--- 2018-12-06 18:25:21
+-- 2018-12-07 10:34:16
